@@ -1,0 +1,18 @@
+name: kemal_test
+version: 0.1.0
+
+authors:
+  - Aldo Utera <Kugel85@gmail.com>
+
+targets:
+  kemal_test:
+    main: src/kemal_test.cr
+
+crystal: 0.20.3
+
+license: MIT
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master
