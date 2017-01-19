@@ -1,0 +1,15 @@
+.layout {
+}
+
+.layout__sidebar {
+    background-color: #2196F3;
+    height: 100vh;
+    padding: 0;
+}
+
+.layout__header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+.layout__content {
+}

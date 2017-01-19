@@ -11,10 +11,7 @@ get "/" do
 end
 
 get "/admin" do
-  name = "Aldo"
-
   admin_render "src/views/admin/render.ecr"
 end
 
 Kemal.run
-
