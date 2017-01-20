@@ -24,20 +24,17 @@
             <div class="layout">
                 <div class="row">
                     <div class="layout__sidebar col-sm-4 col-lg-2">
+                        <%= render "src/views/partials/admin/sidebar.ecr" %>
                     </div>
                     <div class="col-sm-8 col-lg-10">
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="layout__header">
-                                    <%= yield_content "header" %>
-                                </div>
+                            <div class="layout__header col-sm-12">
+                                <%= yield_content "header" %>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="layout__content">
-                                    <%= yield_content "content" %>
-                                </div>
+                            <div class="layout__content col-sm-12">
+                                <%= yield_content "content" %>
                             </div>
                         </div>
                     </div>
@@ -47,7 +44,7 @@
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
-        <script src="/js/vendor/bootstrap.min.js"></script>
+        <!-- <script src="/js/vendor/bootstrap.min.js"></script> -->
         <%= yield_content "scripts" %>
         <script src="/js/plugins.js"></script>
         <script src="/js/main.js"></script>
