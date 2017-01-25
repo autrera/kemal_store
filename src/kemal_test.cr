@@ -17,12 +17,12 @@ macro resource(resource_route, resource_object)
     {{resource_object}}Controller.new.index
   end
 
-  get "/{{resource_route}}" do
+  get "/{{resource_route}}/:id" do
     {{resource_object}}Controller.new.index
   end
 end
 
-resource 'admin/orders', Order
+resource admin/orders, Order
 
 get "/" do
   "Hello World!"
