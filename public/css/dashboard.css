@@ -1,5 +1,5 @@
 body {
-    background: #ECEEEF;
+    background: #ECEFF1;
     font-size: 16px;
 }
 
@@ -7,7 +7,7 @@ body {
 }
 
 .layout__sidebar {
-    background-color: #2196F3;
+    background-color: #3F51B5;
     height: 100vh;
     padding: 0;
 }
@@ -39,7 +39,7 @@ body {
 .layout__header {
     position: relative;
     background: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
 }
 
 .layout__content {
@@ -54,13 +54,25 @@ body {
 
 .header__add-button {
     position: absolute;
-    bottom: 0;
     right: 1em;
+    bottom: 0;
+    font-size: 2em;
+    line-height: 1em;
+    font-weight: bold;
+    padding: 0.25em 0.5em;
+    margin: 0;
     transform: translateY(50%);
+    border-radius: 0.85em;
+    background: #4CAF50;
+    border: none;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    text-decoration: none;
+    color: white;
+    z-index: 999;
 }
 
 .box {
     background: white;
     padding: 1em;
-    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
