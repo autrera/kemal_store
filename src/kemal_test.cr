@@ -32,6 +32,32 @@ struct AdminOrderController
   end
 end
 
+struct AdminProductController
+  def index
+    admin_render "src/views/admin/products/index.ecr"
+  end
+
+  def new
+  end
+
+  def create
+  end
+
+  def show(env)
+    id = env.params.url["id"]
+    admin_render "src/views/admin/products/edit.ecr"
+  end
+
+  def edit(env)
+  end
+
+  def update(env)
+  end
+
+  def destroy(env)
+  end
+end
+
 macro resource(route_parts, resource_object)
 
   index_route_string = "/"
@@ -77,6 +103,7 @@ macro resource(route_parts, resource_object)
 end
 
 resource ["admin", "orders"], AdminOrder
+resource ["admin", "products"], AdminProduct
 # resource "/orders", Order
 
 get "/" do
