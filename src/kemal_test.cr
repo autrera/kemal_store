@@ -6,7 +6,7 @@ macro admin_render(view_file_path)
   render {{view_file_path}}, "src/views/layouts/admin.ecr"
 end
 
-struct OrderController
+struct AdminOrderController
   def index
     admin_render "src/views/admin/orders/index.ecr"
   end
@@ -76,7 +76,7 @@ macro resource(route_parts, resource_object)
 
 end
 
-resource ["admin", "orders"], Order
+resource ["admin", "orders"], AdminOrder
 # resource "/orders", Order
 
 get "/" do
