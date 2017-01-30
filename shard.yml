@@ -16,3 +16,9 @@ dependencies:
   kemal:
     github: kemalcr/kemal
     branch: master
+  db:
+    github: crystal-lang/crystal-db
+  pg:
+    github: will/crystal-pg
+  micrate:
+    github: juanedi/micrate
