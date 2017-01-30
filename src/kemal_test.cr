@@ -1,4 +1,6 @@
 require "kemal"
+require "db"
+require "pg"
 
 # logging false
 
@@ -34,6 +36,17 @@ end
 
 struct AdminProductController
   def index
+    # organizations = Array(NamedTuple(name: String)).new
+    organizations = [] of NamedTuple(id: Int32, name: String)
+    DB.open "postgres://localhost:5432/comentanos" do |db|
+      db.query("SELECT id, name FROM organizations") do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          name = rs.read(String)
+          organizations.push({ id: id, name: name })
+        end
+      end
+    end
     admin_render "src/views/admin/products/index.ecr"
   end
 
