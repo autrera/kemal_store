@@ -10,6 +10,11 @@
 <% end %>
 
 <% content_for "content" do %>
+    <% organizations.each do |organization| %>
+        <%= organization[:id] %>
+        - 
+        <%= organization[:name] %>
+    <% end %>
     <div class="grid-padded">
         <div class="grid">
             <div class="col col-6">
