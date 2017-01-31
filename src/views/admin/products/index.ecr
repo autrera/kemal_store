@@ -1,19 +1,12 @@
 <% content_for "header" do %>
-    <div class="grid">
-        <div class="col">
-            <h1 class="header__title">
-                Ordenes
-            </h1>
-        </div>
-    </div>
-    <a href="#" class="header__add-button btn btn-primary">+</a>
+    <%= render "src/views/admin/products/_header.ecr" %>
 <% end %>
 
 <% content_for "content" do %>
-    <% organizations.each do |organization| %>
-        <%= organization[:id] %>
-        - 
-        <%= organization[:name] %>
+    <% index_products.each do |product| %>
+        <%= product[:id] %>
+        -
+        <%= product[:name] %>
     <% end %>
     <div class="grid-padded">
         <div class="grid">
