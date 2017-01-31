@@ -7,5 +7,5 @@
 require "micrate"
 require "pg"
 
-Micrate::DB.connection_url = "postgres://localhost:5432/kemal"
+Micrate::DB.connection_url = "postgres://localhost:5432/kemal_test"
 Micrate::Cli.run
