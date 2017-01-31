@@ -122,15 +122,19 @@ get "/" do
 end
 
 get "/admin/products" do
-  organizations = [] of NamedTuple(id: Int32, name: String)
-  db.query("SELECT id, name FROM products") do |rs|
+  index_products = [] of NamedTuple(id: Int32, name: String)
+  db.query("SELECT id, name FROM organizations") do |rs|
     rs.each do
       id = rs.read(Int32)
       name = rs.read(String)
-      organizations.push({ id: id, name: name })
+      index_products.push({ id: id, name: name })
     end
   end
   admin_render "src/views/admin/products/index.ecr"
+end
+
+get "/admin/products/new" do
+  admin_render "src/views/admin/products/new.ecr"
 end
 
 Kemal.run
