@@ -3,21 +3,30 @@
 <% end %>
 
 <% content_for "content" do %>
-    <% index_products.each do |product| %>
-        <%= product[:id] %>
-        -
-        <%= product[:name] %>
-    <% end %>
     <div class="grid-padded">
         <div class="grid">
             <div class="col col-6">
                 <div class="box">
-                    Some Box!
-                </div>
-            </div>
-            <div class="col col-6">
-                <div class="box">
-                    Some Box!
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>SKU</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                        <% index_products.each do |product| %>
+                            <tr>
+                                <td><%= product.id %></td>
+                                <td><%= product.name %></td>
+                                <td><%= product.sku %></td>
+                                <td><%= product.stock %></td>
+                                <td>$ <%= product.price / 100 %> MXN</td>
+                                <td>Acciones</td>
+                            </tr>
+                        <% end %>
+                    </table>
                 </div>
             </div>
         </div>
