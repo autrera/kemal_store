@@ -4,6 +4,13 @@ require "pg"
 
 # logging false
 
+struct Product
+  property id, name, sku, stock, price
+
+  def initialize(@id : Int32, @name : String, @sku : String, @stock : Int32, @price : Int32)
+  end
+end
+
 db = DB.open "postgres://localhost:5432/kemal_test"
 
 macro admin_render(view_file_path)
@@ -122,12 +129,12 @@ get "/" do
 end
 
 get "/admin/products" do
-  index_products = [] of NamedTuple(id: Int32, name: String)
-  db.query("SELECT id, name FROM organizations") do |rs|
+  index_products = [] of Product
+  db.query("SELECT id, name, sku, stock, price FROM products") do |rs|
     rs.each do
-      id = rs.read(Int32)
-      name = rs.read(String)
-      index_products.push({ id: id, name: name })
+      id, name, sku, stock, price = rs.read(Int32, String, String, Int32, Int32)
+      product = Product.new(id, name, sku, stock, price)
+      index_products.push(product)
     end
   end
   admin_render "src/views/admin/products/index.ecr"
@@ -135,6 +142,26 @@ end
 
 get "/admin/products/new" do
   admin_render "src/views/admin/products/new.ecr"
+end
+
+post "/admin/products" do |env|
+  name = env.params.url["product[name]"]
+  sku = env.params.url["product[sku]"]
+  stock = env.params.url["product[stock]"]
+  price = env.params.url["product[price]"]
+
+  result = db.exec "insert into contacts values ($1, $2, $3, $4)", name, sku, stock, price
+  log result
+
+  index_products = [] of Product
+  db.query("SELECT id, name, sku, stock, price FROM products") do |rs|
+    rs.each do
+      id, name, sku, stock, price = rs.read(Int32, String, String, Int32, Int32)
+      product = Product.new(id, name, sku, stock, price)
+      index_products.push(product)
+    end
+  end
+  admin_render "src/views/admin/products/index.ecr"
 end
 
 Kemal.run
