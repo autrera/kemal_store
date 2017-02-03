@@ -68,3 +68,11 @@ small {
 .btn:focus, .btn:hover {
     text-decoration: none;
 }
+
+table, tr  {
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+}
