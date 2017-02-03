@@ -5,13 +5,47 @@ require "pg"
 # logging false
 
 struct Product
-  property id, name, sku, stock, price
+  property id, organization_id, name, sku, stock, price
 
-  def initialize(@id : Int32, @name : String, @sku : String, @stock : Int32, @price : Int32)
+  def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0)
+  end
+
+  def is_valid
+    if @id == 0
+      return false
+    end
+    return true
   end
 end
 
 db = DB.open "postgres://localhost:5432/kemal_test"
+
+def get_products(db)
+  products = [] of Product
+  db.query("SELECT id, organization_id, name, sku, stock, price FROM products") do |rs|
+    rs.each do
+      id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32)
+      product = Product.new(id, organization_id, name, sku, stock, price)
+      products.push(product)
+    end
+  end
+  return products
+end
+
+def get_product(db, id)
+  id, organization_id, name, sku, stock, price = db.query_one "SELECT id, organization_id, name, sku, stock, price FROM products WHERE id = $1", id, as: { Int32, Int32, String, String, Int32, Int32 }
+
+  # db.query_one("SELECT id, organization_id, name, sku, stock, price FROM products") do |rs|
+  #   rs.each do
+  #     id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32)
+  #     product = Product.new(id, organization_id, name, sku, stock, price)
+  #     products.push(product)
+  #   end
+  # end
+
+  product = Product.new(id, organization_id, name, sku, stock, price)
+  return product
+end
 
 macro admin_render(view_file_path)
   render {{view_file_path}}, "src/views/layouts/admin.ecr"
@@ -129,39 +163,30 @@ get "/" do
 end
 
 get "/admin/products" do
-  index_products = [] of Product
-  db.query("SELECT id, name, sku, stock, price FROM products") do |rs|
-    rs.each do
-      id, name, sku, stock, price = rs.read(Int32, String, String, Int32, Int32)
-      product = Product.new(id, name, sku, stock, price)
-      index_products.push(product)
-    end
-  end
+  index_products = get_products(db)
   admin_render "src/views/admin/products/index.ecr"
 end
 
 get "/admin/products/new" do
+  product = Product.new
   admin_render "src/views/admin/products/new.ecr"
 end
 
 post "/admin/products" do |env|
-  name = env.params.url["product[name]"]
-  sku = env.params.url["product[sku]"]
-  stock = env.params.url["product[stock]"]
-  price = env.params.url["product[price]"]
+  name = env.params.body["product[name]"]
+  sku = env.params.body["product[sku]"]
+  stock = env.params.body["product[stock]"]
+  price = env.params.body["product[price]"]
 
-  result = db.exec "insert into contacts values ($1, $2, $3, $4)", name, sku, stock, price
+  result = db.exec "INSERT INTO products(organization_id, name, sku, stock, price) VALUES (1, $1, $2, $3, $4)", name, sku, stock, price
   log result
 
-  index_products = [] of Product
-  db.query("SELECT id, name, sku, stock, price FROM products") do |rs|
-    rs.each do
-      id, name, sku, stock, price = rs.read(Int32, String, String, Int32, Int32)
-      product = Product.new(id, name, sku, stock, price)
-      index_products.push(product)
-    end
-  end
-  admin_render "src/views/admin/products/index.ecr"
+  env.redirect "/admin/products/"
+end
+
+get "/admin/products/:id/edit" do |env|
+  product = get_product(db, env.params.url["id"])
+  admin_render "src/views/admin/products/edit.ecr"
 end
 
 Kemal.run
