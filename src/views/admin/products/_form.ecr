@@ -1,25 +1,25 @@
-<form action="/admin/products/" method="POST">
+<form action="/admin/products/<%= product.is_valid ? product.id : ""  %>" method="<%= product.is_valid ? "PATCH" : "POST" %>">
     <div class="form-group">
         <label for="product_name">Nombre: </label>
-        <input id="product_name" name="product[name]" type="text" value="" />
+        <input id="product_name" name="product[name]" type="text" value="<%= product.is_valid ? product.name : "" %>" />
         <small>El nombre del producto</small>
     </div>
 
     <div class="form-group">
         <label for="product_sku">SKU: </label>
-        <input id="product_sku" name="product[sku]" type="text" value="" />
+        <input id="product_sku" name="product[sku]" type="text" value="<%= product.is_valid ? product.sku : "" %>" />
         <small>Identificador unico del producto</small>
     </div>
 
     <div class="form-group">
         <label for="product_stock">Stock: </label>
-        <input id="product_stock" name="product[stock]" type="text" value="" />
+        <input id="product_stock" name="product[stock]" type="text" value="<%= product.is_valid ? product.stock : "" %>" />
         <small>Cantidad disponible para vender</small>
     </div>
 
     <div class="form-group">
         <label for="product_price">Precio (Centavos): </label>
-        <input id="product_price" name="product[price]" type="text" value="" />
+        <input id="product_price" name="product[price]" type="text" value="<%= product.is_valid ? product.price : "" %>" />
         <small>Precio en centavos del producto</small>
     </div>
 

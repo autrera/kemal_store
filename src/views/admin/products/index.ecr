@@ -23,7 +23,12 @@
                                 <td><%= product.sku %></td>
                                 <td><%= product.stock %></td>
                                 <td>$ <%= product.price / 100 %> MXN</td>
-                                <td>Acciones</td>
+                                <td>
+                                    <a href="/admin/products/<%= product.id %>/edit">Editar</a>
+                                    <form action="/admin/products/<%= product.id %>" method="DELETE">
+                                        <button class="">Eliminar</button>
+                                    </form>
+                                </td>
                             </tr>
                         <% end %>
                     </table>
