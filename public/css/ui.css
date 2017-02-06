@@ -12,6 +12,15 @@ body {
     color: #292b2c;
 }
 
+a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 label {
     display: inline-block;
     margin-bottom: 0.5rem;
@@ -46,6 +55,10 @@ small {
     color: #636c72;
 }
 
+.form-inline {
+    display: inline-block;
+}
+
 .form-group {
     margin-bottom: 1rem;
 }
@@ -67,6 +80,16 @@ small {
 
 .btn:focus, .btn:hover {
     text-decoration: none;
+}
+
+.btn.btn-link {
+    border-color: transparent;
+    background: transparent;
+    color: #0275d8;
+}
+
+.btn.btn-link:hover {
+    text-decoration: underline;
 }
 
 table, tr  {
