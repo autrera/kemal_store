@@ -4,6 +4,16 @@ require "pg"
 
 # logging false
 
+def minify_css(*file_paths)
+  current_dir = Dir.current
+  contents = ""
+  file_paths.each do |path|
+    contents += File.read("#{current_dir}/public#{path}", "UTF-8")
+  end
+  File.write("#{current_dir}/public/css/minified.css", contents)
+  return true
+end
+
 struct Product
   property id, organization_id, name, sku, stock, price
 
@@ -158,6 +168,8 @@ end
 # resource ["admin", "orders"], AdminOrder
 # resource ["admin", "products"], AdminProduct
 
+minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css")
+
 get "/" do
   "Hello World!"
 end
@@ -187,6 +199,19 @@ end
 get "/admin/products/:id/edit" do |env|
   product = get_product(db, env.params.url["id"])
   admin_render "src/views/admin/products/edit.ecr"
+end
+
+patch "/admin/products/:id" do |env|
+  id = env.params.url["id"]
+  name = env.params.body["product[name]"]
+  sku = env.params.body["product[sku]"]
+  stock = env.params.body["product[stock]"]
+  price = env.params.body["product[price]"]
+
+  result = db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5 WHERE id = $1", id, name, sku, stock, price
+  log result
+
+  env.redirect "/admin/products/"
 end
 
 Kemal.run
