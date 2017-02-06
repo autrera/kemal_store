@@ -10,11 +10,15 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="/css/normalize.css"/>
+        <!-- <link rel="stylesheet" href="/css/normalize.css"/>
         <link rel="stylesheet" href="/css/grid.css"/>
         <link rel="stylesheet" href="/css/ui.css"/>
-        <link rel="stylesheet" href="/css/dashboard.css"/>
+        <link rel="stylesheet" href="/css/dashboard.css"/> -->
+        <link rel="stylesheet" href="/css/minified.css"/>
         <%= yield_content "styles" %>
+
+        <script src="/js/main.js"></script>
+        <%= yield_content "scripts" %>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -45,8 +49,6 @@
         <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.12.0.min.js"><\/script>')</script> -->
         <!-- <script src="/js/vendor/bootstrap.min.js"></script> -->
-        <%= yield_content "scripts" %>
         <!-- <script src="/js/plugins.js"></script> -->
-        <!-- <script src="/js/main.js"></script> -->
     </body>
 </html>
