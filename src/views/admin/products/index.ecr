@@ -7,31 +7,33 @@
         <div class="grid">
             <div class="col col-6">
                 <div class="box">
-                    <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>SKU</th>
-                            <th>Stock</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
-                        </tr>
-                        <% index_products.each do |product| %>
+                    <div class="box__padding">
+                        <table>
                             <tr>
-                                <td><%= product.id %></td>
-                                <td><%= product.name %></td>
-                                <td><%= product.sku %></td>
-                                <td><%= product.stock %></td>
-                                <td>$ <%= product.price / 100 %> MXN</td>
-                                <td>
-                                    <a class="btn btn-link" href="/admin/products/<%= product.id %>/edit">Editar</a>
-                                    <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/products/<%= product.id %>" method="DELETE">
-                                        <button class="btn btn-link">Eliminar</button>
-                                    </form>
-                                </td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>SKU</th>
+                                <th style="text-align: center; ">Stock</th>
+                                <th style="text-align: center; ">Precio</th>
+                                <th style="text-align: center; ">Acciones</th>
                             </tr>
-                        <% end %>
-                    </table>
+                            <% index_products.each do |product| %>
+                                <tr>
+                                    <td><%= product.id %></td>
+                                    <td><%= product.name %></td>
+                                    <td><%= product.sku %></td>
+                                    <td style="text-align: center; "><%= product.stock %></td>
+                                    <td style="text-align: right; ">$ <%= product.price / 100 %> MXN</td>
+                                    <td style="text-align: center; ">
+                                        <a class="btn btn-link" href="/admin/products/<%= product.id %>/edit">Editar</a>
+                                        <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/products/<%= product.id %>" method="DELETE">
+                                            <button class="btn btn-link">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
