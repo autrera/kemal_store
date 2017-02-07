@@ -63,7 +63,8 @@ body {
     box-sizing: border-box;
     font-weight: 400;
     line-height: 1.5;
-    color: #292b2c;
+    /*color: #292b2c;*/
+    color: rgba(0, 0, 0, 0.54);
 }
 
 a {
@@ -77,7 +78,9 @@ a:hover {
 
 label {
     display: inline-block;
-    margin-bottom: 0.5rem;
+    font-size: 0.75em;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
 input[type='text'] {
@@ -114,7 +117,11 @@ small {
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
 }
 
 .btn {
@@ -154,10 +161,12 @@ th, td {
     text-align: left;
 }
 .layout {
+    background-color: #f5f5f5;
 }
 
 .layout__sidebar {
     background-color: #3ca5f2;
+    background-color: #2196F3;
     height: 100vh;
     padding: 0;
 }
@@ -191,17 +200,17 @@ th, td {
     color: rgba(0, 0, 0, 0.84);
     position: relative;
     background: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
     padding-left: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .layout__content {
-    padding: 2rem;
-    background-color: #edf2f4;
+    padding: 1rem;
 }
 
 .header__title {
+    font-size: 1.5em;
+    font-weight: 400;
     padding: 1rem 0;
     margin: 0;
 }
@@ -228,7 +237,11 @@ th, td {
 .box {
     background: white;
     padding: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    border-radius: 2px;
+    background: #FFFFFF;
+    vertical-align: top;
+    position: relative;
 }
 
 .btn-primary {
