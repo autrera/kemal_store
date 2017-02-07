@@ -6,7 +6,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    commit: b07dd04372874e1fc039f84fde2c98032861417b
+    commit: 72dc6cf77513e7b392dbeea260eaee4ffb9624b0
 
   kilt:
     github: jeromegn/kilt
@@ -26,5 +26,5 @@ shards:
 
   radix:
     github: luislavena/radix
-    version: 0.3.6
+    version: 0.3.7
 
