@@ -16,6 +16,11 @@ dependencies:
   kemal:
     github: kemalcr/kemal
     branch: master
+  kemal-session:
+    github: kemalcr/kemal-session
+    branch: master
+  kemal-csrf:
+    github: kemalcr/kemal-csrf
   db:
     github: crystal-lang/crystal-db
   pg:
