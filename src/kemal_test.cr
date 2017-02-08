@@ -191,8 +191,6 @@ post "/admin/products" do |env|
   price = env.params.body["product[price]"]
 
   result = db.exec "INSERT INTO products(organization_id, name, sku, stock, price) VALUES (1, $1, $2, $3, $4)", name, sku, stock, price
-  log result
-
   env.redirect "/admin/products/"
 end
 
@@ -209,8 +207,13 @@ patch "/admin/products/:id" do |env|
   price = env.params.body["product[price]"]
 
   result = db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5 WHERE id = $1", id, name, sku, stock, price
-  log result
+  env.redirect "/admin/products/"
+end
 
+delete "/admin/products/:id" do |env|
+  id = env.params.url["id"]
+
+  result = db.exec "DELETE FROM products WHERE id = $1", id
   env.redirect "/admin/products/"
 end
 
