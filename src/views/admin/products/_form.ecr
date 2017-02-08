@@ -1,5 +1,8 @@
 <div class="box">
-    <form action="/admin/products/<%= product.is_valid ? product.id : ""  %>" method="<%= product.is_valid ? "PATCH" : "POST" %>">
+    <form action="/admin/products/<%= product.is_valid ? product.id : ""  %>" method="POST">
+        <% if product.is_valid %>
+            <input type="hidden" name="_method" value="PATCH" />
+        <% end %>
         <div class="box__padding">
             <div class="form-group">
                 <label for="product_name">Nombre </label>
