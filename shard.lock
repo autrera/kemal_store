@@ -8,6 +8,14 @@ shards:
     github: kemalcr/kemal
     commit: 72dc6cf77513e7b392dbeea260eaee4ffb9624b0
 
+  kemal-csrf:
+    github: kemalcr/kemal-csrf
+    version: 0.1.0
+
+  kemal-session:
+    github: kemalcr/kemal-session
+    version: 0.3.0
+
   kilt:
     github: jeromegn/kilt
     version: 0.3.3
