@@ -1,18 +1,11 @@
 require "kemal"
+require "kemal-session"
+require "kemal-csrf"
+
 require "db"
 require "pg"
 
 # logging false
-
-def minify_css(*file_paths)
-  current_dir = Dir.current
-  contents = ""
-  file_paths.each do |path|
-    contents += File.read("#{current_dir}/public#{path}", "UTF-8")
-  end
-  File.write("#{current_dir}/public/css/minified.css", contents)
-  return true
-end
 
 struct Product
   property id, organization_id, name, sku, stock, price
@@ -28,7 +21,15 @@ struct Product
   end
 end
 
-db = DB.open "postgres://localhost:5432/kemal_test"
+def minify_css(*file_paths)
+  current_dir = Dir.current
+  contents = ""
+  file_paths.each do |path|
+    contents += File.read("#{current_dir}/public#{path}", "UTF-8")
+  end
+  File.write("#{current_dir}/public/css/minified.css", contents)
+  return true
+end
 
 def get_products(db)
   products = [] of Product
@@ -44,14 +45,6 @@ end
 
 def get_product(db, id)
   id, organization_id, name, sku, stock, price = db.query_one "SELECT id, organization_id, name, sku, stock, price FROM products WHERE id = $1", id, as: { Int32, Int32, String, String, Int32, Int32 }
-
-  # db.query_one("SELECT id, organization_id, name, sku, stock, price FROM products") do |rs|
-  #   rs.each do
-  #     id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32)
-  #     product = Product.new(id, organization_id, name, sku, stock, price)
-  #     products.push(product)
-  #   end
-  # end
 
   product = Product.new(id, organization_id, name, sku, stock, price)
   return product
@@ -170,6 +163,8 @@ end
 
 minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css")
 
+db = DB.open "postgres://localhost:5432/kemal_test"
+
 get "/" do
   "Hello World!"
 end
@@ -218,5 +213,4 @@ delete "/admin/products/:id" do |env|
 end
 
 Kemal.run
-
 db.close
