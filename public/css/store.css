@@ -2,7 +2,7 @@ body {
     background-color: #f3f5f8;
 }
 
-header {
+header, footer {
     background-color: #45414e;
     color: #FFFFFF;
     padding: 3em 0;
@@ -45,3 +45,38 @@ header {
     color: #FFFFFF;
     text-decoration: none;
 }
+
+.section__title {
+    color: rgba(0, 0, 0, 0.87);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+}
+
+.home__featured {
+    background: white;
+    padding: 1em 0;
+}
+
+.footer__links-title {
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+.footer__links {
+    list-style: none;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.footer__link-item {
+    display: block;
+}
+
+.footer__link {
+    color: #f0ebfe;
+    text-decoration: none;
+}
+
