@@ -1,6 +1,6 @@
 require "kemal"
-require "kemal-session"
-require "kemal-csrf"
+# require "kemal-session"
+# require "kemal-csrf"
 
 require "db"
 require "pg"
@@ -21,13 +21,13 @@ struct Product
   end
 end
 
-def minify_css(*file_paths)
+def minify_css(*file_paths, file_name : String)
   current_dir = Dir.current
   contents = ""
   file_paths.each do |path|
     contents += File.read("#{current_dir}/public#{path}", "UTF-8")
   end
-  File.write("#{current_dir}/public/css/minified.css", contents)
+  File.write("#{current_dir}/public/css/#{file_name}.css", contents)
   return true
 end
 
@@ -52,6 +52,10 @@ end
 
 macro admin_render(view_file_path)
   render {{view_file_path}}, "src/views/layouts/admin.ecr"
+end
+
+macro store_render(view_file_path)
+  render {{view_file_path}}, "src/views/layouts/store.ecr"
 end
 
 # macro resource(route_parts, resource_object)
@@ -161,12 +165,13 @@ end
 # resource ["admin", "orders"], AdminOrder
 # resource ["admin", "products"], AdminProduct
 
-minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css")
+minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css", file_name: "dashboard.min")
+minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.css", file_name: "store.min")
 
 db = DB.open "postgres://localhost:5432/kemal_test"
 
 get "/" do
-  "Hello World!"
+  store_render "src/views/store/welcome/index.ecr"
 end
 
 get "/admin/products" do
