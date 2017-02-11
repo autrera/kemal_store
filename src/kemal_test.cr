@@ -21,6 +21,20 @@ struct Product
   end
 end
 
+struct Category
+  property id, organization_id, name
+
+  def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "")
+  end
+
+  def is_valid
+    if @id == 0
+      return false
+    end
+    return true
+  end
+end
+
 def minify_css(*file_paths, file_name : String)
   current_dir = Dir.current
   contents = ""
@@ -29,6 +43,25 @@ def minify_css(*file_paths, file_name : String)
   end
   File.write("#{current_dir}/public/css/#{file_name}.css", contents)
   return true
+end
+
+def get_categories(db)
+  categories = [] of Category
+  db.query("SELECT id, organization_id, name FROM categories") do |rs|
+    rs.each do
+      id, organization_id, name = rs.read(Int32, Int32, String)
+      category = Category.new(id, organization_id, name)
+      categories.push(category)
+    end
+  end
+  return categories
+end
+
+def get_category(db, id)
+  id, organization_id, name = db.query_one "SELECT id, organization_id, name FROM categories WHERE id = $1", id, as: { Int32, Int32, String }
+
+  category = Category.new(id, organization_id, name)
+  return category
 end
 
 def get_products(db)
@@ -174,13 +207,51 @@ get "/" do
   store_render "src/views/store/welcome/index.ecr"
 end
 
+get "/admin/categories" do
+  categories = get_categories(db)
+  admin_render "src/views/admin/categories/index.ecr"
+end
+
+get "/admin/categories/new" do
+  category = Category.new
+  admin_render "src/views/admin/categories/new.ecr"
+end
+
+post "/admin/categories" do |env|
+  name = env.params.body["category[name]"]
+
+  result = db.exec "INSERT INTO categories(organization_id, name) VALUES (1, $1)", name
+  env.redirect "/admin/categories/"
+end
+
+get "/admin/categories/:id/edit" do |env|
+  category = get_category(db, env.params.url["id"])
+  admin_render "src/views/admin/categories/edit.ecr"
+end
+
+patch "/admin/categories/:id" do |env|
+  id = env.params.url["id"]
+  name = env.params.body["category[name]"]
+
+  result = db.exec "UPDATE categories SET name = $2 WHERE id = $1", id, name
+  env.redirect "/admin/categories/"
+end
+
+delete "/admin/categories/:id" do |env|
+  id = env.params.url["id"]
+
+  result = db.exec "DELETE FROM categories WHERE id = $1", id
+  env.redirect "/admin/categories/"
+end
+
 get "/admin/products" do
-  index_products = get_products(db)
+  products = get_products(db)
   admin_render "src/views/admin/products/index.ecr"
 end
 
 get "/admin/products/new" do
   product = Product.new
+  categories = get_categories(db)
   admin_render "src/views/admin/products/new.ecr"
 end
 
@@ -196,6 +267,7 @@ end
 
 get "/admin/products/:id/edit" do |env|
   product = get_product(db, env.params.url["id"])
+  categories = get_categories(db)
   admin_render "src/views/admin/products/edit.ecr"
 end
 
