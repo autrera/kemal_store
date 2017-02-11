@@ -27,6 +27,14 @@
                 <input id="product_price" name="product[price]" type="text" value="<%= product.is_valid ? product.price : "" %>" />
                 <small>Precio en centavos del producto</small>
             </div>
+
+            <div class="form-group">
+              <ul>
+                <% categories.each do |category| %>
+                  <li><%= category.name %></li>
+                <% end %>
+              </ul>
+            </div>
         </div>
 
         <div class="box__padding box__border">
