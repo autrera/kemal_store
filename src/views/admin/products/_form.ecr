@@ -30,8 +30,15 @@
 
             <div class="form-group">
               <% categories.each do |category| %>
+                <% check_category = false %>
+                <% product_categories.each do |product_category| %>
+                  <% if category.id == product_category.id %>
+                    <% check_category = true %>
+                    <% break %>
+                  <% end %>
+                <% end %>
                 <div>
-                  <input id="category_<%= category.id %>" type="checkbox" value="<%= category.id %>" name="product_category[]" />
+                  <input <%= check_category ? "checked='checked'" : "" %> id="category_<%= category.id %>" type="checkbox" value="<%= category.id %>" name="product_categories[]" />
                   <label for="category_<%= category.id %>"><%= category.name %></label>
                 </div>
               <% end %>
