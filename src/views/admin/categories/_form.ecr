@@ -1,0 +1,22 @@
+<div class="box">
+    <form action="/admin/categories/<%= category.is_valid ? category.id : ""  %>" method="POST">
+        <% if category.is_valid %>
+            <input type="hidden" name="_method" value="PATCH" />
+        <% end %>
+        <div class="box__padding">
+            <div class="form-group">
+                <label for="category_name">Nombre </label>
+                <input id="category_name" name="category[name]" type="text" value="<%= category.is_valid ? category.name : "" %>" />
+                <small>El nombre de la categoría</small>
+            </div>
+
+        </div>
+
+        <div class="box__padding box__border">
+            <div class="form-group" style="text-align: right; ">
+                <a href="/admin/categories/" class="btn btn-link" type="submit">Cancelar</a>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>

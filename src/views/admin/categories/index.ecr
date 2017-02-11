@@ -1,0 +1,37 @@
+<% content_for "header" do %>
+    <%= render "src/views/admin/categories/_header.ecr" %>
+<% end %>
+
+<% content_for "content" do %>
+    <div class="grid-padded">
+        <div class="grid">
+            <div class="col col-8">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th style="text-align: center; ">Acciones</th>
+                    </tr>
+                    <% count = 0 %>
+                    <% categories.each do |product| %>
+                        <% count += 1 %>
+                        <tr>
+                            <td><%= count %></td>
+                            <td><%= product.name %></td>
+                            <td style="text-align: center; ">
+                                <a class="btn btn-link" href="/admin/categories/<%= product.id %>/edit">Editar</a>
+                                <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/categories/<%= product.id %>" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button class="btn btn-link">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% end %>
+                </table>
+            </div>
+            <div class="col col-4">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+<% end %>
