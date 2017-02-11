@@ -76,6 +76,18 @@ def get_products(db)
   return products
 end
 
+def get_product_categories(db, product_id)
+  categories = [] of Category
+  db.query("SELECT category_id FROM categories_products WHERE product_id = $1", product_id) do |rs|
+    rs.each do
+      id = rs.read(Int32)
+      category = Category.new(id)
+      categories.push(category)
+    end
+  end
+  return categories
+end
+
 def get_product(db, id)
   id, organization_id, name, sku, stock, price = db.query_one "SELECT id, organization_id, name, sku, stock, price FROM products WHERE id = $1", id, as: { Int32, Int32, String, String, Int32, Int32 }
 
@@ -251,6 +263,7 @@ end
 
 get "/admin/products/new" do
   product = Product.new
+  product_categories = [] of Category
   categories = get_categories(db)
   admin_render "src/views/admin/products/new.ecr"
 end
@@ -267,6 +280,7 @@ end
 
 get "/admin/products/:id/edit" do |env|
   product = get_product(db, env.params.url["id"])
+  product_categories = get_product_categories(db, product.id)
   categories = get_categories(db)
   admin_render "src/views/admin/products/edit.ecr"
 end
