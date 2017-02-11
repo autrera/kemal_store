@@ -5,4 +5,5 @@
 /.shards/
 kemal_test
 micrate
-minified.css
+store.min.css
+dashboard.min.css
