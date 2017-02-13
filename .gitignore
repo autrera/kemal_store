@@ -3,6 +3,7 @@
 /lib/
 /bin/
 /.shards/
+.env
 kemal_test
 micrate
 store.min.css
