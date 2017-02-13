@@ -1,5 +1,4 @@
 require "kemal"
-require "uri"
 # require "kemal-session"
 # require "kemal-csrf"
 
@@ -7,6 +6,16 @@ require "db"
 require "pg"
 
 # logging false
+
+# Load env params
+env_params = {} of String => String
+if File.exists? Dir.current + "/.env"
+  lines = File.read_lines(Dir.current + "/.env", "UTF-8")
+  lines.each do |line|
+    key, value = line.split('=')
+    env_params[key] = value
+  end
+end
 
 struct Product
   property id, organization_id, name, sku, stock, price
@@ -214,7 +223,8 @@ end
 minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css", file_name: "dashboard.min")
 minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.css", file_name: "store.min")
 
-db = DB.open "postgres://localhost:5432/kemal_test"
+#db = DB.open "postgres://localhost:5432/kemal_test"
+db = DB.open env_params["DB_URL"]
 
 get "/" do
   store_render "src/views/store/welcome/index.ecr"
