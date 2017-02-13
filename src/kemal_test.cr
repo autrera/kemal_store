@@ -1,4 +1,5 @@
 require "kemal"
+require "uri"
 # require "kemal-session"
 # require "kemal-csrf"
 
@@ -273,8 +274,16 @@ post "/admin/products" do |env|
   sku = env.params.body["product[sku]"]
   stock = env.params.body["product[stock]"]
   price = env.params.body["product[price]"]
+  product_categories = env.params.body.fetch_all("product[categories][]")
 
   result = db.exec "INSERT INTO products(organization_id, name, sku, stock, price) VALUES (1, $1, $2, $3, $4)", name, sku, stock, price
+  if result.rows_affected > 0 && product_categories.empty? == false
+    product_id = db.query_one "SELECT currval(pg_get_serial_sequence('products','id'))", as: { Int64 }
+    product_categories.each do |product_category|
+      db.exec "INSERT INTO categories_products(product_id, category_id) VALUES($1, $2)", product_id, product_category
+    end
+  end
+
   env.redirect "/admin/products/"
 end
 
@@ -286,20 +295,33 @@ get "/admin/products/:id/edit" do |env|
 end
 
 patch "/admin/products/:id" do |env|
-  id = env.params.url["id"]
+  product_id = env.params.url["id"]
   name = env.params.body["product[name]"]
   sku = env.params.body["product[sku]"]
   stock = env.params.body["product[stock]"]
   price = env.params.body["product[price]"]
+  product_categories = env.params.body.fetch_all("product[categories][]")
 
-  result = db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5 WHERE id = $1", id, name, sku, stock, price
+  db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5 WHERE id = $1", product_id, name, sku, stock, price
+  db.exec "DELETE FROM categories_products WHERE product_id = $1", product_id
+  # insert = db.exec "INSERT INTO categories_products(product_id, category_id) SELECT $1 id, x FROM unnest(ARRAY[$2]) x", product_id, product_categories.join(',')
+  unless product_categories.empty?
+    product_categories.each do |product_category|
+      db.exec "INSERT INTO categories_products(product_id, category_id) VALUES($1, $2)", product_id, product_category
+    end
+  end
+
   env.redirect "/admin/products/"
 end
 
 delete "/admin/products/:id" do |env|
-  id = env.params.url["id"]
+  product_id = env.params.url["id"]
 
-  result = db.exec "DELETE FROM products WHERE id = $1", id
+  delete_product = db.exec "DELETE FROM products WHERE id = $1", product_id
+  if delete_product.rows_affected > 0
+    db.exec "DELETE FROM categories_products WHERE product_id = $1", product_id
+  end
+
   env.redirect "/admin/products/"
 end
 

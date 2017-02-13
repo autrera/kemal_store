@@ -38,7 +38,7 @@
                   <% end %>
                 <% end %>
                 <div>
-                  <input <%= check_category ? "checked='checked'" : "" %> id="category_<%= category.id %>" type="checkbox" value="<%= category.id %>" name="product_categories[]" />
+                  <input <%= check_category ? "checked='checked'" : "" %> id="category_<%= category.id %>" type="checkbox" value="<%= category.id %>" name="product[categories][]" />
                   <label for="category_<%= category.id %>"><%= category.name %></label>
                 </div>
               <% end %>
