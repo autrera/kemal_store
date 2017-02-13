@@ -264,6 +264,10 @@ delete "/admin/categories/:id" do |env|
   id = env.params.url["id"]
 
   result = db.exec "DELETE FROM categories WHERE id = $1", id
+  if result.rows_affected > 0
+    db.exec "DELETE FROM categories_products WHERE category_id = $1", id
+  end
+
   env.redirect "/admin/categories/"
 end
 
