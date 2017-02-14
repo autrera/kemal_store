@@ -34,7 +34,7 @@ end
 struct ProductImage
   property id, path
 
-  def initialize(@id : Int32 = 0, @path : String = 0)
+  def initialize(@id : Int32 = 0, @path : String = "")
   end
 end
 
@@ -347,8 +347,14 @@ delete "/admin/products/:id" do |env|
 end
 
 get "/admin/products/:id/images" do |env|
+  product_id = env.params.url["id"]
   product_images = [] of ProductImage
-  db.query("SELECT id, path FROM product_images") do |rs|
+  db.query("
+    SELECT id, 
+           path
+    FROM product_images 
+    WHERE product_id = $1
+    ", product_id) do |rs|
     rs.each do
       id, path = rs.read(Int32, String)
       product_image = ProductImage.new(id, path)
@@ -356,6 +362,11 @@ get "/admin/products/:id/images" do |env|
     end
   end
   admin_render "src/views/admin/products/images/index.ecr"
+end
+
+get "/admin/products/:id/images/new" do |env|
+  product_image = ProductImage.new
+  admin_render "src/views/admin/products/images/new.ecr"
 end
 
 Kemal.run
