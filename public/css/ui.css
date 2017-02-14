@@ -160,4 +160,8 @@ th, td {
         display: block;
     }
 
+    .show-on-mobile {
+        display: none;
+    }
+
 }
