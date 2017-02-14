@@ -31,6 +31,13 @@ struct Product
   end
 end
 
+struct ProductImage
+  property id, path
+
+  def initialize(@id : Int32 = 0, @path : String = 0)
+  end
+end
+
 struct Category
   property id, organization_id, name
 
@@ -339,5 +346,18 @@ delete "/admin/products/:id" do |env|
   env.redirect "/admin/products/"
 end
 
+get "/admin/products/:id/images" do |env|
+  product_images = [] of ProductImage
+  db.query("SELECT id, path FROM product_images") do |rs|
+    rs.each do
+      id, path = rs.read(Int32, String)
+      product_image = ProductImage.new(id, path)
+      product_images.push(product_image)
+    end
+  end
+  admin_render "src/views/admin/products/images/index.ecr"
+end
+
 Kemal.run
 db.close
+
