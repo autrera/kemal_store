@@ -149,3 +149,15 @@ td {
 th, td {
     text-align: left;
 }
+
+.hide-on-mobile {
+    display: none;
+}
+
+@media (min-width: 600px) {
+
+    .hide-on-mobile {
+        display: block;
+    }
+
+}

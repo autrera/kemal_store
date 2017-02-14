@@ -203,6 +203,18 @@ td {
 th, td {
     text-align: left;
 }
+
+.hide-on-mobile {
+    display: none;
+}
+
+@media (min-width: 600px) {
+
+    .hide-on-mobile {
+        display: block;
+    }
+
+}
 body {
     background-color: #edf2f4;
 }
@@ -214,14 +226,13 @@ body {
 .layout__sidebar {
     background-color: #3ca5f2;
     background-color: #2196F3;
-    height: 100vh;
     padding: 0;
 }
 
 .layout__sidebar .links {
-    margin-top: 2rem;
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .layout__sidebar .link__container {
@@ -309,3 +320,18 @@ body {
     background-color: #0275d8;
     border-color: #01549b;
 }
+
+@media (min-width: 600px) {
+
+    .layout__sidebar {
+        height: 100vh;
+    }
+
+    .layout__sidebar .links {
+        margin-top: 2rem;
+        list-style: none;
+        padding: 0;
+    }
+
+}
+
