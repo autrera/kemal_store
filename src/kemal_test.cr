@@ -12,8 +12,8 @@ env_params = {} of String => String
 if File.exists? Dir.current + "/.env"
   lines = File.read_lines(Dir.current + "/.env", "UTF-8")
   lines.each do |line|
-    key, value = line.split('=')
-    env_params[key] = value
+    line_parts = line.split('=')
+    env_params[line_parts[0]] = line_parts[1]
   end
 end
 
