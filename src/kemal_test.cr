@@ -32,9 +32,9 @@ struct Product
 end
 
 struct ProductImage
-  property id, path
+  property id, product_id, url, relevance
 
-  def initialize(@id : Int32 = 0, @path : String = "")
+  def initialize(@id : Int32 = 0, @product_id : Int32 = 0, @url : String = "", @relevance : Int32 = 0)
   end
 end
 
@@ -119,113 +119,6 @@ end
 macro store_render(view_file_path)
   render {{view_file_path}}, "src/views/layouts/store.ecr"
 end
-
-# macro resource(route_parts, resource_object)
-#
-#   index_route_string = "/"
-#   {% for route, index in route_parts %}
-#     index_route_string += {{route}} + "/"
-#   {% end %}
-#   new_route_string = index_route_string + "new"
-#   show_route_string = index_route_string + ":id"
-#   edit_route_string = show_route_string + "/edit"
-#
-#   get index_route_string do
-#     {{resource_object}}Controller.new.index(db)
-#   end
-#
-#   get new_route_string do
-#     {{resource_object}}Controller.new.new
-#   end
-#
-#   post index_route_string do
-#     {{resource_object}}Controller.new.create
-#   end
-#
-#   get show_route_string do |env|
-#     {{resource_object}}Controller.new.show(env)
-#   end
-#
-#   get edit_route_string do |env|
-#     {{resource_object}}Controller.new.edit(env)
-#   end
-#
-#   put show_route_string do |env|
-#     {{resource_object}}Controller.new.update(env)
-#   end
-#
-#   patch show_route_string do |env|
-#     {{resource_object}}Controller.new.update(env)
-#   end
-#
-#   delete show_route_string do |env|
-#     {{resource_object}}Controller.new.destroy(env)
-#   end
-#
-# end
-#
-# struct AdminOrderController
-#   def index(db)
-#     admin_render "src/views/admin/orders/index.ecr"
-#   end
-#
-#   def new
-#   end
-#
-#   def create
-#   end
-#
-#   def show(env)
-#     id = env.params.url["id"]
-#     admin_render "src/views/admin/orders/edit.ecr"
-#   end
-#
-#   def edit(env)
-#   end
-#
-#   def update(env)
-#   end
-#
-#   def destroy(env)
-#   end
-# end
-#
-# struct AdminProductController
-#   def index(db)
-#     organizations = [] of NamedTuple(id: Int32, name: String)
-#     db.query("SELECT id, name FROM organizations") do |rs|
-#       rs.each do
-#         id = rs.read(Int32)
-#         name = rs.read(String)
-#         organizations.push({ id: id, name: name })
-#       end
-#     end
-#     admin_render "src/views/admin/products/index.ecr"
-#   end
-#
-#   def new
-#   end
-#
-#   def create
-#   end
-#
-#   def show(env)
-#     id = env.params.url["id"]
-#     admin_render "src/views/admin/products/edit.ecr"
-#   end
-#
-#   def edit(env)
-#   end
-#
-#   def update(env)
-#   end
-#
-#   def destroy(env)
-#   end
-# end
-#
-# resource ["admin", "orders"], AdminOrder
-# resource ["admin", "products"], AdminProduct
 
 minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css", file_name: "dashboard.min")
 minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.css", file_name: "store.min")
@@ -350,14 +243,16 @@ get "/admin/products/:id/images" do |env|
   product_id = env.params.url["id"]
   product_images = [] of ProductImage
   db.query("
-    SELECT id, 
-           path
-    FROM product_images 
+    SELECT id,
+           url,
+           relevance
+    FROM product_images
     WHERE product_id = $1
+    ORDER BY relevance ASC
     ", product_id) do |rs|
     rs.each do
-      id, path = rs.read(Int32, String)
-      product_image = ProductImage.new(id, path)
+      id, url, relevance = rs.read(Int32, String, Int32)
+      product_image = ProductImage.new(id: id, url: url, relevance: relevance)
       product_images.push(product_image)
     end
   end
@@ -372,3 +267,109 @@ end
 Kemal.run
 db.close
 
+# macro resource(route_parts, resource_object)
+#
+#   index_route_string = "/"
+#   {% for route, index in route_parts %}
+#     index_route_string += {{route}} + "/"
+#   {% end %}
+#   new_route_string = index_route_string + "new"
+#   show_route_string = index_route_string + ":id"
+#   edit_route_string = show_route_string + "/edit"
+#
+#   get index_route_string do
+#     {{resource_object}}Controller.new.index(db)
+#   end
+#
+#   get new_route_string do
+#     {{resource_object}}Controller.new.new
+#   end
+#
+#   post index_route_string do
+#     {{resource_object}}Controller.new.create
+#   end
+#
+#   get show_route_string do |env|
+#     {{resource_object}}Controller.new.show(env)
+#   end
+#
+#   get edit_route_string do |env|
+#     {{resource_object}}Controller.new.edit(env)
+#   end
+#
+#   put show_route_string do |env|
+#     {{resource_object}}Controller.new.update(env)
+#   end
+#
+#   patch show_route_string do |env|
+#     {{resource_object}}Controller.new.update(env)
+#   end
+#
+#   delete show_route_string do |env|
+#     {{resource_object}}Controller.new.destroy(env)
+#   end
+#
+# end
+#
+# struct AdminOrderController
+#   def index(db)
+#     admin_render "src/views/admin/orders/index.ecr"
+#   end
+#
+#   def new
+#   end
+#
+#   def create
+#   end
+#
+#   def show(env)
+#     id = env.params.url["id"]
+#     admin_render "src/views/admin/orders/edit.ecr"
+#   end
+#
+#   def edit(env)
+#   end
+#
+#   def update(env)
+#   end
+#
+#   def destroy(env)
+#   end
+# end
+#
+# struct AdminProductController
+#   def index(db)
+#     organizations = [] of NamedTuple(id: Int32, name: String)
+#     db.query("SELECT id, name FROM organizations") do |rs|
+#       rs.each do
+#         id = rs.read(Int32)
+#         name = rs.read(String)
+#         organizations.push({ id: id, name: name })
+#       end
+#     end
+#     admin_render "src/views/admin/products/index.ecr"
+#   end
+#
+#   def new
+#   end
+#
+#   def create
+#   end
+#
+#   def show(env)
+#     id = env.params.url["id"]
+#     admin_render "src/views/admin/products/edit.ecr"
+#   end
+#
+#   def edit(env)
+#   end
+#
+#   def update(env)
+#   end
+#
+#   def destroy(env)
+#   end
+# end
+#
+# resource ["admin", "orders"], AdminOrder
+# resource ["admin", "products"], AdminProduct
