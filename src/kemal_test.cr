@@ -6,6 +6,7 @@ require "db"
 require "pg"
 
 # logging false
+gzip true
 
 # Load env params
 env_params = {} of String => String
@@ -260,8 +261,19 @@ get "/admin/products/:id/images" do |env|
 end
 
 get "/admin/products/:id/images/new" do |env|
+  product_id = env.params.url["id"]
   product_image = ProductImage.new
   admin_render "src/views/admin/products/images/new.ecr"
+end
+
+post "/admin/products/:id/images" do |env|
+  file = env.params.files["file"]
+  file_temp = file.tmpfile
+  file_path = File.join [Kemal.config.public_folder, "uploads/products/", file.filename]
+  File.open(file_path, "w") do |f|
+    IO.copy(file, f)
+  end
+  "Upload ok"
 end
 
 Kemal.run
