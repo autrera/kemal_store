@@ -154,6 +154,12 @@ th, td {
     display: none;
 }
 
+.clearfix::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
 @media (min-width: 600px) {
 
     .hide-on-mobile {
