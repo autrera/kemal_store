@@ -104,6 +104,11 @@ small {
     text-decoration: underline;
 }
 
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
 table {
     position: relative;
     border: 1px solid rgba(0,0,0,.12);
