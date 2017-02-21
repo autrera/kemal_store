@@ -267,6 +267,7 @@ get "/admin/products/:id/images/new" do |env|
 end
 
 post "/admin/products/:id/images" do |env|
+  log env.params.inspect
   # file = env.params.files["file"]
   # file_temp = file.tmpfile
   # file_path = File.join [Kemal.config.public_folder, "uploads/products/", file.filename]
