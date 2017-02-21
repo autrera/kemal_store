@@ -1,6 +1,7 @@
 html, body {
     background-color: #f2f5f7;
     font-size: 16px;
+    color: rgba(0, 0, 0, 0.87);
 }
 
 .navigation {
@@ -28,9 +29,13 @@ html, body {
 .promoted-product {
     width: 33.333333%;
     float: left;
-    background-color: #e8b1cf;
+    background-color: #be3382;
     padding: 1em;
     border-right: 1px solid #f2f5f7;
+}
+
+.promoted-product:last-child {
+    border-right: none;
 }
 
 .promoted-product__image-container {
