@@ -53,13 +53,13 @@ struct Category
   end
 end
 
-def minify_css(*file_paths, file_name : String)
+def minify_assets(*file_paths, file_path : String)
   current_dir = Dir.current
   contents = ""
   file_paths.each do |path|
     contents += File.read("#{current_dir}/public#{path}", "UTF-8")
   end
-  File.write("#{current_dir}/public/css/#{file_name}.css", contents)
+  File.write("#{current_dir}/public#{file_path}", contents)
   return true
 end
 
@@ -121,8 +121,11 @@ macro store_render(view_file_path)
   render {{view_file_path}}, "src/views/layouts/store.ecr"
 end
 
-minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css", file_name: "dashboard.min")
-minify_css("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.css", file_name: "store.min")
+minified_file_fingerprint = Time.new.epoch
+dashboard_styles = "/css/dashboard.#{minified_file_fingerprint}.min.css"
+store_styles = "/css/store.#{minified_file_fingerprint}.min.css"
+minify_assets("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/dashboard.css", file_path: dashboard_styles)
+minify_assets("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.css", file_path: store_styles)
 
 #db = DB.open "postgres://localhost:5432/kemal_test"
 db = DB.open env_params["DB_URL"]
