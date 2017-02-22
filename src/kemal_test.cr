@@ -255,29 +255,33 @@ get "/admin/products/:id/images" do |env|
     ORDER BY relevance ASC
     ", product_id) do |rs|
     rs.each do
-      id, url, relevance = rs.read(Int32, String, Int32)
-      product_image = ProductImage.new(id: id, url: url, relevance: relevance)
+      id, url = rs.read(Int32, String)
+      product_image = ProductImage.new(id: id, url: url)
       product_images.push(product_image)
     end
   end
   admin_render "src/views/admin/products/images/index.ecr"
 end
 
-get "/admin/products/:id/images/new" do |env|
-  product_id = env.params.url["id"]
-  product_image = ProductImage.new
-  admin_render "src/views/admin/products/images/new.ecr"
-end
-
 post "/admin/products/:id/images" do |env|
-  log env.params.inspect
-  # file = env.params.files["file"]
-  # file_temp = file.tmpfile
-  # file_path = File.join [Kemal.config.public_folder, "uploads/products/", file.filename]
-  # File.open(file_path, "w") do |f|
-  #   IO.copy(file, f)
-  # end
-  # "Upload ok"
+  product_id = env.params.url["id"]
+  parse_multipart(env) do |f|
+    file_name = "#{product_id}-#{Time.new.epoch}.jpg"
+    file_public_path = File.join "", "uploads", "products", "#{file_name}"
+    file_storage_path = File.join Dir.current, "public", file_public_path
+    File.open(file_storage_path, "w") do |file|
+      IO.copy(f.data, file)
+    end
+    db.exec "
+      INSERT INTO product_images(
+        product_id,
+        url
+      ) VALUES (
+        $1,
+        $2
+      )", product_id, file_public_path
+  end
+  env.redirect "/admin/products/#{product_id}/images/"
 end
 
 Kemal.run
