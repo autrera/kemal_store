@@ -1,5 +1,5 @@
 require "kemal"
-# require "kemal-session"
+require "kemal-session"
 # require "kemal-csrf"
 
 require "db"
@@ -50,6 +50,13 @@ struct Category
       return false
     end
     return true
+  end
+end
+
+struct Config
+  property id, store_name
+
+  def initialize(@id : Int32 = 0, @store_name : String = "")
   end
 end
 
@@ -111,6 +118,13 @@ def get_product(db, id)
 
   product = Product.new(id, organization_id, name, sku, stock, price)
   return product
+end
+
+def get_config(db)
+  id, store_name = db.query_one "SELECT id, store_name FROM config WHERE id = 1", as: { Int32, String }
+
+  config = Config.new(id, store_name)
+  return config
 end
 
 macro admin_render(view_file_path)
@@ -282,6 +296,16 @@ post "/admin/products/:id/images" do |env|
       )", product_id, file_public_path
   end
   env.redirect "/admin/products/#{product_id}/images/"
+end
+
+get "/admin/config/" do |env|
+  config = get_config(db)
+  admin_render "src/views/admin/config/edit.ecr"
+end
+
+patch "/admin/config/" do |env|
+  config = get_config(db)
+  admin_render "src/views/admin/config/edit.ecr"
 end
 
 Kemal.run

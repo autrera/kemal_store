@@ -1,0 +1,43 @@
+<% content_for "header" do %>
+    <div class="grid">
+        <div class="col">
+            <h1 class="header__title">
+                Configuración de la Tienda
+            </h1>
+        </div>
+    </div>
+<% end %>
+
+<% content_for "content" do %>
+    <div class="grid-padded">
+        <div class="grid">
+            <div class="col col-3 hide-on-mobile">
+                &nbsp;
+            </div>
+            <div class="col col-6">
+                <div class="box">
+                    <form action="/admin/config" method="POST">
+                        <input type="hidden" name="_method" value="PATCH" />
+                        <div class="box__padding">
+                            <div class="form-group">
+                                <label for="category_name">Nombre </label>
+                                <input id="category_name" name="config[name]" type="text" value="<%= config.store_name %>" />
+                                <small>El nombre de la Tienda</small>
+                            </div>
+
+                        </div>
+
+                        <div class="box__padding box__border">
+                            <div class="form-group" style="text-align: right; ">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col col-3 hide-on-mobile">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+<% end %>
