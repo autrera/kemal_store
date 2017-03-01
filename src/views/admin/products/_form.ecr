@@ -11,6 +11,12 @@
             </div>
 
             <div class="form-group">
+                <label for="product_name">Descripción </label>
+                <input id="product_name" name="product[description]" type="text" value="<%= product.is_valid ? product.description : "" %>" />
+                <small>Descripción del producto</small>
+            </div>
+
+            <div class="form-group">
                 <label for="product_sku">SKU </label>
                 <input id="product_sku" name="product[sku]" type="text" value="<%= product.is_valid ? product.sku : "" %>" />
                 <small>Identificador unico del producto</small>

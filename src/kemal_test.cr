@@ -19,9 +19,9 @@ if File.exists? Dir.current + "/.env"
 end
 
 struct Product
-  property id, organization_id, name, sku, stock, price
+  property id, organization_id, name, sku, stock, price, description
 
-  def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0)
+  def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0, @description : String = "")
   end
 
   def is_valid
@@ -91,10 +91,18 @@ end
 
 def get_products(db)
   products = [] of Product
-  db.query("SELECT id, organization_id, name, sku, stock, price FROM products") do |rs|
+  db.query("
+    SELECT id,
+           organization_id,
+           name,
+           sku,
+           stock,
+           price,
+           description
+    FROM products") do |rs|
     rs.each do
-      id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32)
-      product = Product.new(id, organization_id, name, sku, stock, price)
+      id, organization_id, name, sku, stock, price, description = rs.read(Int32, Int32, String, String, Int32, Int32, String)
+      product = Product.new(id, organization_id, name, sku, stock, price, description)
       products.push(product)
     end
   end
@@ -206,9 +214,10 @@ post "/admin/products" do |env|
   sku = env.params.body["product[sku]"]
   stock = env.params.body["product[stock]"]
   price = env.params.body["product[price]"]
+  description = env.params.body["product[description]"]
   product_categories = env.params.body.fetch_all("product[categories][]")
 
-  result = db.exec "INSERT INTO products(organization_id, name, sku, stock, price) VALUES (1, $1, $2, $3, $4)", name, sku, stock, price
+  result = db.exec "INSERT INTO products(organization_id, name, sku, stock, price, description) VALUES (1, $1, $2, $3, $4, $5)", name, sku, stock, price, description
   if result.rows_affected > 0 && product_categories.empty? == false
     product_id = db.query_one "SELECT currval(pg_get_serial_sequence('products','id'))", as: { Int64 }
     product_categories.each do |product_category|
