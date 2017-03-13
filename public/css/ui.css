@@ -34,7 +34,8 @@ input[type='text'] {
     padding: .5rem .75rem;
     font-size: 1rem;
     line-height: 1.25;
-    color: #464a4c;
+    /*color: #464a4c;*/
+    color: rgba(0, 0, 0, .87);
     background-color: #fff;
     background-image: none;
     background-clip: padding-box;
@@ -54,7 +55,8 @@ small {
     margin-top: 0.25em;
     font-size: 80%;
     font-weight: 400;
-    color: #636c72;
+    /*color: #636c72;*/
+    color: rgba(0, 0, 0, 0.38);
 }
 
 .form-inline {
