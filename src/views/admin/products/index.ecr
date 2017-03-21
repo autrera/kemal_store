@@ -3,6 +3,46 @@
 <% end %>
 
 <% content_for "content" do %>
+    <div class="product-list">
+        <div class="grid-padded">
+            <div class="grid">
+                <% count = 1 %>
+                <% products.each do |product| %>
+                    <% if count % 4 == 0 %>
+                        </div>
+                        <div class="grid">
+                    <% else %>
+                        <div class="col col-4">
+                            <div class="product__container">
+                                <div class="product">
+                                    <div class="grid">
+                                        <div class="col col-4">
+                                            <div class="product__image-container">
+                                                <img src="/images/product_placeholder.jpg" class="product__image img-fluid" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-8">
+                                            <div class="product__details">
+                                                <h3 class="product__title">
+                                                  Product Name
+                                                </h3>
+                                                <p class="product__description">
+                                                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                    <% count += 1 %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
     <div class="grid-padded">
         <div class="grid">
             <div class="col col-8">

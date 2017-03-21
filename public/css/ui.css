@@ -167,6 +167,11 @@ th, td {
     content: "";
 }
 
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
 @media (min-width: 600px) {
 
     .hide-on-mobile {
