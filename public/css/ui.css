@@ -123,6 +123,14 @@ small {
     text-decoration: underline;
 }
 
+.btn:first-child.btn-link {
+    padding-left: 0;
+}
+
+.btn:last-child.btn-link {
+    padding-right: 0;
+}
+
 .img-fluid {
     max-width: 100%;
     height: auto;
