@@ -75,23 +75,6 @@ body {
     z-index: 999;
 }
 
-.box {
-    background: white;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-    border-radius: 2px;
-    background: #FFFFFF;
-    vertical-align: top;
-    position: relative;
-}
-
-.box__padding {
-    padding: 1rem;
-}
-
-.box__border {
-    border-top: 1px solid rgba(0,0,0,.1);
-}
-
 .btn-primary {
     color: #fff;
     background-color: #3ca5f2;
@@ -133,10 +116,26 @@ body {
 
 .product__title {
     font-size: 1em;
+    margin-bottom: 0;
+    line-height: 0.75em;
 }
 
 .product__description {
     font-size: 0.75em;
+}
+
+.product__stock {
+    font-size: 1.25em;
+    color: orange;
+    text-align: right;
+    margin: 0;
+}
+
+.product__price {
+    font-size: 1.5em;
+    color: green;
+    text-align: right;
+    margin: 0;
 }
 
 @media (min-width: 600px) {
