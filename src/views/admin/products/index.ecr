@@ -25,12 +25,36 @@
                                         <div class="col col-8">
                                             <div class="product__details">
                                                 <h3 class="product__title">
-                                                  Product Name
+                                                    <%= product.name %>
                                                 </h3>
+                                                <small class="product__sku"><%= product.sku %></small>
                                                 <p class="product__description">
-                                                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                    <%= product.description %>
+                                                </p>
+                                                <p class="product__stock">
+                                                    <%= product.stock %>
+                                                </p>
+                                                <p class="product__price">
+                                                    $ <%= product.price / 100 %> MXN
                                                 </p>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid box__border">
+                                        <div class="col">
+                                            <a class="btn btn-link" href="/admin/products/<%= product.id %>/images">Imágenes</a>
+                                            <a class="btn btn-link" href="/admin/products/<%= product.id %>/edit">Editar</a>
+                                            <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/products/<%= product.id %>" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE" />
+                                                <button class="btn btn-link">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="grid box__border">
+                                        <div class="col">
+                                            <a href="#" class="btn btn-link">Star</a>
+                                            <a href="#" class="btn btn-link">Star</a>
+                                            <a href="#" class="btn btn-link">Star</a>
                                         </div>
                                     </div>
                                 </div>
