@@ -122,10 +122,11 @@ body {
 
 .product__description {
     font-size: 0.75em;
+    margin: 0;
 }
 
 .product__stock {
-    font-size: 1.25em;
+    font-size: 1em;
     color: orange;
     text-align: right;
     margin: 0;
