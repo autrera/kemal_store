@@ -241,9 +241,10 @@ patch "/admin/products/:id" do |env|
   sku = env.params.body["product[sku]"]
   stock = env.params.body["product[stock]"]
   price = env.params.body["product[price]"]
+  description = env.params.body["product[description]"]
   product_categories = env.params.body.fetch_all("product[categories][]")
 
-  db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5 WHERE id = $1", product_id, name, sku, stock, price
+  db.exec "UPDATE products SET name = $2, sku = $3, stock = $4, price = $5, description = $6 WHERE id = $1", product_id, name, sku, stock, price, description
   db.exec "DELETE FROM categories_products WHERE product_id = $1", product_id
   # insert = db.exec "INSERT INTO categories_products(product_id, category_id) SELECT $1 id, x FROM unnest(ARRAY[$2]) x", product_id, product_categories.join(',')
   unless product_categories.empty?
