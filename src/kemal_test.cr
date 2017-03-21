@@ -99,7 +99,8 @@ def get_products(db)
            stock,
            price,
            description
-    FROM products") do |rs|
+    FROM products
+    ORDER BY id DESC") do |rs|
     rs.each do
       id, organization_id, name, sku, stock, price, description = rs.read(Int32, Int32, String, String, Int32, Int32, String)
       product = Product.new(id, organization_id, name, sku, stock, price, description)
