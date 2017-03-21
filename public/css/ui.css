@@ -59,6 +59,23 @@ small {
     color: rgba(0, 0, 0, 0.38);
 }
 
+.box {
+    background: white;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    border-radius: 2px;
+    background: #FFFFFF;
+    vertical-align: top;
+    position: relative;
+}
+
+.box__padding {
+    padding: 1rem;
+}
+
+.box__border {
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
 .form-inline {
     display: inline-block;
 }
@@ -82,7 +99,7 @@ small {
     /*border: 1px solid transparent;*/
     border: none;
     padding: 0 1rem;
-    font-size: 1rem;
+    font-size: 0.75em;
     border-radius: 2px;
     /*transition: all .2s ease-in-out;*/
     transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
@@ -116,7 +133,7 @@ table {
     border: 1px solid rgba(0,0,0,.12);
     border-collapse: collapse;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 1em;
     background-color: #fff;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
