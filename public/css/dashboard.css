@@ -154,6 +154,22 @@ body {
     padding: 1em 0;
 }
 
+.product__not-featured {
+    fill: rgba(0, 0, 0, 0.38);
+}
+
+.product__not-in-home {
+    fill: rgba(0, 0, 0, 0.38);
+}
+
+.product__featured {
+    fill: orange;
+}
+
+.product__in-home {
+    fill: blue;
+}
+
 @media (min-width: 600px) {
 
     .layout__sidebar {
