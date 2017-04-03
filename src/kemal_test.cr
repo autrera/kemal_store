@@ -18,8 +18,30 @@ if File.exists? Dir.current + "/.env"
   end
 end
 
-struct Product
-  property id, organization_id, name, sku, stock, price, description
+#lib C
+
+  #struct Product
+    #id : Int32
+    #organization_id : Int32
+    #name : String
+    #sku : String
+    #stock : Int32
+    #price : Int32
+    #description : String
+  #end
+
+#end
+
+class Product
+  DB.mapping({
+    id: Int32,
+    organization_id: Int32,
+    name: String,
+    sku: String,
+    stock: Int32,
+    price: Int32,
+    description: String,
+  })
 
   def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0, @description : String = "")
   end
@@ -31,6 +53,20 @@ struct Product
     return true
   end
 end
+
+#class Product
+  #property id, organization_id, name, sku, stock, price, description
+
+  #def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0, @description : String = "")
+  #end
+
+  #def is_valid
+    #if @id == 0
+      #return false
+    #end
+    #return true
+  #end
+#end
 
 struct ProductImage
   property id, product_id, url, relevance
@@ -90,8 +126,7 @@ def get_category(db, id)
 end
 
 def get_products(db)
-  products = [] of Product
-  db.query("
+  products = Product.from_rs(db.query("
     SELECT id,
            organization_id,
            name,
@@ -100,13 +135,26 @@ def get_products(db)
            price,
            description
     FROM products
-    ORDER BY id DESC") do |rs|
-    rs.each do
-      id, organization_id, name, sku, stock, price, description = rs.read(Int32, Int32, String, String, Int32, Int32, String)
-      product = Product.new(id, organization_id, name, sku, stock, price, description)
-      products.push(product)
-    end
-  end
+    ORDER BY id DESC
+  "))
+
+  #products = [] of Product
+  #db.query("
+    #SELECT id,
+           #organization_id,
+           #name,
+           #sku,
+           #stock,
+           #price
+    #FROM products
+    #ORDER BY id DESC") do |rs|
+    #rs.each do
+      #id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32, String)
+      #product = Product.new(id, organization_id, name, sku, stock, price)
+      #products.push(product)
+    #end
+  #end
+
   return products
 end
 
