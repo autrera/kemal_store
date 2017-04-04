@@ -18,20 +18,6 @@ if File.exists? Dir.current + "/.env"
   end
 end
 
-#lib C
-
-  #struct Product
-    #id : Int32
-    #organization_id : Int32
-    #name : String
-    #sku : String
-    #stock : Int32
-    #price : Int32
-    #description : String
-  #end
-
-#end
-
 class Product
   DB.mapping({
     id: Int32,
@@ -43,18 +29,20 @@ class Product
     description: String,
   })
 
-  def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0, @description : String = "")
+  def initialize(
+    @id : Int32 = 0,
+    @organization_id : Int32 = 0,
+    @name : String = "",
+    @sku : String = "",
+    @stock : Int32 = 0,
+    @price : Int32 = 0,
+    @description : String = ""
+  )
   end
 
-  def is_valid
-    if @id == 0
-      return false
-    end
-    return true
-  end
 end
 
-#class Product
+#struct Product
   #property id, organization_id, name, sku, stock, price, description
 
   #def initialize(@id : Int32 = 0, @organization_id : Int32 = 0, @name : String = "", @sku : String = "", @stock : Int32 = 0, @price : Int32 = 0, @description : String = "")
@@ -106,6 +94,13 @@ def minify_assets(*file_paths, file_path : String)
   return true
 end
 
+def is_product_valid(product : Product)
+  if product.id == 0
+    return false
+  end
+  return true
+end
+
 def get_categories(db)
   categories = [] of Category
   db.query("SELECT id, organization_id, name FROM categories") do |rs|
@@ -138,23 +133,6 @@ def get_products(db)
     ORDER BY id DESC
   "))
 
-  #products = [] of Product
-  #db.query("
-    #SELECT id,
-           #organization_id,
-           #name,
-           #sku,
-           #stock,
-           #price
-    #FROM products
-    #ORDER BY id DESC") do |rs|
-    #rs.each do
-      #id, organization_id, name, sku, stock, price = rs.read(Int32, Int32, String, String, Int32, Int32, String)
-      #product = Product.new(id, organization_id, name, sku, stock, price)
-      #products.push(product)
-    #end
-  #end
-
   return products
 end
 
@@ -171,10 +149,21 @@ def get_product_categories(db, product_id)
 end
 
 def get_product(db, id)
-  id, organization_id, name, sku, stock, price = db.query_one "SELECT id, organization_id, name, sku, stock, price FROM products WHERE id = $1", id, as: { Int32, Int32, String, String, Int32, Int32 }
-
-  product = Product.new(id, organization_id, name, sku, stock, price)
-  return product
+  products = Product.from_rs(db.query("
+    SELECT id,
+           organization_id,
+           name,
+           sku,
+           stock,
+           price,
+           description
+    FROM products
+    WHERE id = $1
+    ORDER BY id DESC
+  ", id))
+  # id, organization_id, name, sku, stock, price = db.query_one "SELECT id, organization_id, name, sku, stock, price FROM products WHERE id = $1", id, as: { Int32, Int32, String, String, Int32, Int32 }
+  # product = Product.new(id, organization_id, name, sku, stock, price)
+  return products[0]
 end
 
 def get_config(db)
