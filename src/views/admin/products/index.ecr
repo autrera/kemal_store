@@ -13,21 +13,18 @@
                         <div class="product__container">
                             <div class="product">
                                 <div class="grid">
-                                    <div class="col col-4">
+                                    <div class="cell col-4">
                                         <div class="product__image-container">
                                             <img src="/images/product_placeholder.jpg" class="product__image img-fluid" />
                                         </div>
                                     </div>
 
-                                    <div class="col col-8">
+                                    <div class="cell col-8">
                                         <div class="product__details">
                                             <h3 class="product__title">
                                                 <%= product.name %>
                                             </h3>
                                             <small class="product__sku"><%= product.sku %></small>
-                                            <p class="product__description">
-                                                <%= product.description %>
-                                            </p>
                                             <p class="product__stock">
                                                 Quedan <%= product.stock %>
                                             </p>
@@ -38,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="grid product__actions">
-                                    <div class="col">
+                                    <div class="cell">
                                         <a href="#" class="js-product--featured product__not-featured icon btn btn-link">
                                             <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M0 0h24v24H0z" fill="none"/>
@@ -104,9 +101,6 @@
                         </tr>
                     <% end %>
                 </table>
-            </div>
-            <div class="col col-4">
-                &nbsp;
             </div>
         </div>
     </div>
