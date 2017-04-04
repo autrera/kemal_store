@@ -11,9 +11,15 @@
         table-layout: fixed;
     }
 
-    .col {
+    .cell {
         display: table-cell;
         vertical-align: top;
+    }
+
+    .col {
+        float: left;
+        padding: 0 1rem;
+        height: 100%;
     }
 
     .grid-padded {
@@ -24,9 +30,7 @@
     .grid-padded > .grid {
         border-spacing: 1rem 0;
     }
-}
 
-@media (min-width: 600px) {
     .col-1 { width: 8.333333%; }
     .col-2 { width: 16.666667%; }
     .col-3 { width: 25%; }
@@ -44,10 +48,3 @@
     vertical-align: middle;
 }
 
-.grid-reverse {
-    direction: rtl;
-}
-
-.grid-reverse .col {
-    direction: ltr;
-}
