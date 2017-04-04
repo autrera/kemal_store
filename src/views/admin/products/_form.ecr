@@ -1,36 +1,36 @@
 <div class="box">
-    <form action="/admin/products/<%= product.is_valid ? product.id : ""  %>" method="POST">
-        <% if product.is_valid %>
+    <form action="/admin/products/<%= is_product_valid(product) ? product.id : ""  %>" method="POST">
+        <% if is_product_valid(product) %>
             <input type="hidden" name="_method" value="PATCH" />
         <% end %>
         <div class="box__padding">
             <div class="form-group">
                 <label for="product_name">Nombre </label>
-                <input id="product_name" name="product[name]" type="text" value="<%= product.is_valid ? product.name : "" %>" />
+                <input id="product_name" name="product[name]" type="text" value="<%= is_product_valid(product) ? product.name : "" %>" />
                 <small>El nombre del producto</small>
             </div>
 
             <div class="form-group">
                 <label for="product_name">Descripción </label>
-                <input id="product_name" name="product[description]" type="text" value="<%= product.is_valid ? product.description : "" %>" />
+                <input id="product_name" name="product[description]" type="text" value="<%= is_product_valid(product) ? product.name : "" %>" />
                 <small>Descripción del producto</small>
             </div>
 
             <div class="form-group">
                 <label for="product_sku">SKU </label>
-                <input id="product_sku" name="product[sku]" type="text" value="<%= product.is_valid ? product.sku : "" %>" />
+                <input id="product_sku" name="product[sku]" type="text" value="<%= is_product_valid(product) ? product.sku : "" %>" />
                 <small>Identificador unico del producto</small>
             </div>
 
             <div class="form-group">
                 <label for="product_stock">Stock </label>
-                <input id="product_stock" name="product[stock]" type="text" value="<%= product.is_valid ? product.stock : "" %>" />
+                <input id="product_stock" name="product[stock]" type="text" value="<%= is_product_valid(product) ? product.stock : "" %>" />
                 <small>Cantidad disponible para vender</small>
             </div>
 
             <div class="form-group">
                 <label for="product_price">Precio (Centavos) </label>
-                <input id="product_price" name="product[price]" type="text" value="<%= product.is_valid ? product.price : "" %>" />
+                <input id="product_price" name="product[price]" type="text" value="<%= is_product_valid(product) ? product.price : "" %>" />
                 <small>Precio en centavos del producto</small>
             </div>
 
