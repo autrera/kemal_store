@@ -191,6 +191,7 @@ minify_assets("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.
 db = DB.open env_params["DB_URL"]
 
 get "/" do
+  products = get_products(db)
   store_render "src/views/store/welcome/index.ecr"
 end
 
