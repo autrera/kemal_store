@@ -107,6 +107,8 @@ html, body {
 
 .product__title {
     font-size: 1em;
+    margin-bottom: 0;
+    line-height: 0.75em;
 }
 
 .product__description {
