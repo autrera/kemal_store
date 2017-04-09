@@ -27,6 +27,8 @@ class Product
     stock: Int32,
     price: Int32,
     description: String,
+    featured: Boolean,
+    in_home: Boolean,
   })
 
   def initialize(
@@ -36,7 +38,9 @@ class Product
     @sku : String = "",
     @stock : Int32 = 0,
     @price : Int32 = 0,
-    @description : String = ""
+    @description : String = "",
+    @featured : Boolean = false,
+    @in_home : Boolean = false
   )
   end
 
@@ -130,7 +134,7 @@ def get_category_products(db, category_id)
            price,
            description
     FROM products
-    LEFT JOIN categories_products ON products.id = categories_products.category_id
+    INNER JOIN categories_products ON products.id = categories_products.product_id
     WHERE categories_products.category_id = $1
     ORDER BY id DESC
   ", category_id))
@@ -374,6 +378,28 @@ post "/admin/products/:id/images" do |env|
       )", product_id, file_public_path
   end
   env.redirect "/admin/products/#{product_id}/images/"
+end
+
+patch "/admin/products/:id/featured" do |env|
+  product_id = env.params.url["id"]
+  db.exec(
+    "UPDATE products
+    SET featured = 1
+    WHERE id = $1",
+    product_id
+  )
+  env.redirect "/admin/products/"
+end
+
+patch "/admin/products/:id/in_home" do |env|
+  product_id = env.params.url["id"]
+  db.exec(
+    "UPDATE products
+    SET in_home = 1
+    WHERE id = $1",
+    product_id
+  )
+  env.redirect "/admin/products/"
 end
 
 ### /PRODUCTS URLS ###
