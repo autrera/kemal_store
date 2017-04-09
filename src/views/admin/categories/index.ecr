@@ -19,6 +19,7 @@
                             <td><%= count %></td>
                             <td><%= product.name %></td>
                             <td style="text-align: center; ">
+                                <a class="btn btn-link" href="/admin/categories/<%= product.id %>/products">Productos</a>
                                 <a class="btn btn-link" href="/admin/categories/<%= product.id %>/edit">Editar</a>
                                 <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/categories/<%= product.id %>" method="POST">
                                     <input type="hidden" name="_method" value="DELETE" />

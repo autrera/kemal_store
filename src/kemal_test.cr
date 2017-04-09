@@ -120,6 +120,24 @@ def get_category(db, id)
   return category
 end
 
+def get_category_products(db, category_id)
+  products = Product.from_rs(db.query("
+    SELECT products.id,
+           organization_id,
+           name,
+           sku,
+           stock,
+           price,
+           description
+    FROM products
+    LEFT JOIN categories_products ON products.id = categories_products.category_id
+    WHERE categories_products.category_id = $1
+    ORDER BY id DESC
+  ", category_id))
+
+  return products
+end
+
 def get_products(db)
   products = Product.from_rs(db.query("
     SELECT id,
@@ -195,6 +213,8 @@ get "/" do
   store_render "src/views/store/welcome/index.ecr"
 end
 
+### CATEGORIES URLS ###
+
 get "/admin/categories" do
   categories = get_categories(db)
   admin_render "src/views/admin/categories/index.ecr"
@@ -235,6 +255,15 @@ delete "/admin/categories/:id" do |env|
 
   env.redirect "/admin/categories/"
 end
+
+get "/admin/categories/:id/products" do |env|
+  products = get_category_products(db, env.params.url["id"])
+  admin_render "src/views/admin/categories/products.ecr"
+end
+
+### /CATEGORIES URLS ###
+
+### PRODUCTS URLS ###
 
 get "/admin/products" do
   products = get_products(db)
@@ -346,6 +375,8 @@ post "/admin/products/:id/images" do |env|
   end
   env.redirect "/admin/products/#{product_id}/images/"
 end
+
+### /PRODUCTS URLS ###
 
 get "/admin/config/" do |env|
   config = get_config(db)

@@ -1,0 +1,107 @@
+<% content_for "header" do %>
+    <%= render "src/views/admin/categories/_header.ecr" %>
+<% end %>
+
+<% content_for "content" do %>
+    <div class="product-list">
+        <div class="grid-padded">
+            <div class="grid">
+                <% count = 0 %>
+                <% products.each do |product| %>
+                    <% count += 1 %>
+                    <div class="col col-4">
+                        <div class="product__container">
+                            <div class="product">
+                                <div class="grid">
+                                    <div class="cell col-4">
+                                        <div class="product__image-container">
+                                            <img src="/images/product_placeholder.jpg" class="product__image img-fluid" />
+                                        </div>
+                                    </div>
+
+                                    <div class="cell col-8">
+                                        <div class="product__details">
+                                            <h3 class="product__title">
+                                                <%= product.name %>
+                                            </h3>
+                                            <small class="product__sku"><%= product.sku %></small>
+                                            <p class="product__stock">
+                                                Quedan <%= product.stock %>
+                                            </p>
+                                            <p class="product__price">
+                                                $ <%= product.price / 100 %> MXN
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid product__actions">
+                                    <div class="cell">
+                                        <a href="#" class="js-product--featured product__not-featured icon btn btn-link">
+                                            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                                <path d="M0 0h24v24H0z" fill="none"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#" class="js-product--in-home product__not-in-home icon btn btn-link">
+                                            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/>
+                                            </svg>
+                                        </a>
+                                        <a class="btn btn-link" href="/admin/products/<%= product.id %>/images">Imágenes</a>
+                                        <a class="btn btn-link" href="/admin/products/<%= product.id %>/edit">Editar</a>
+                                        <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/products/<%= product.id %>" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE" />
+                                            <button class="btn btn-link">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% if count % 3 == 0 %>
+                        </div>
+                        <div class="grid">
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-padded">
+        <div class="grid">
+            <div class="col col-8">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>SKU</th>
+                        <th style="text-align: center; ">Stock</th>
+                        <th style="text-align: center; ">Precio</th>
+                        <th style="text-align: center; ">Acciones</th>
+                    </tr>
+                    <% count = 0 %>
+                    <% products.each do |product| %>
+                        <% count += 1 %>
+                        <tr>
+                            <td><%= count %></td>
+                            <td><%= product.name %></td>
+                            <td><%= product.sku %></td>
+                            <td style="text-align: center; "><%= product.stock %></td>
+                            <td style="text-align: right; ">$ <%= product.price / 100 %> MXN</td>
+                            <td style="text-align: center; ">
+                                <a class="btn btn-link" href="/admin/products/<%= product.id %>/images">Imágenes</a>
+                                <a class="btn btn-link" href="/admin/products/<%= product.id %>/edit">Editar</a>
+                                <form onsubmit="return confirm('¿Deseas eliminar el recurso?')" class="form-inline" action="/admin/products/<%= product.id %>" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button class="btn btn-link">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% end %>
+                </table>
+            </div>
+        </div>
+    </div>
+<% end %>
