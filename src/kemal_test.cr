@@ -27,8 +27,8 @@ class Product
     stock: Int32,
     price: Int32,
     description: String,
-    featured: Boolean,
-    in_home: Boolean,
+    featured: Bool,
+    in_home: Bool,
   })
 
   def initialize(
@@ -39,8 +39,8 @@ class Product
     @stock : Int32 = 0,
     @price : Int32 = 0,
     @description : String = "",
-    @featured : Boolean = false,
-    @in_home : Boolean = false
+    @featured : Bool = false,
+    @in_home : Bool = false
   )
   end
 
@@ -132,7 +132,9 @@ def get_category_products(db, category_id)
            sku,
            stock,
            price,
-           description
+           description,
+           featured,
+           in_home
     FROM products
     INNER JOIN categories_products ON products.id = categories_products.product_id
     WHERE categories_products.category_id = $1
@@ -150,7 +152,9 @@ def get_products(db)
            sku,
            stock,
            price,
-           description
+           description,
+           featured,
+           in_home
     FROM products
     ORDER BY id DESC
   "))
@@ -178,7 +182,9 @@ def get_product(db, id)
            sku,
            stock,
            price,
-           description
+           description,
+           featured,
+           in_home
     FROM products
     WHERE id = $1
     ORDER BY id DESC
@@ -382,22 +388,26 @@ end
 
 patch "/admin/products/:id/featured" do |env|
   product_id = env.params.url["id"]
+  featured = env.params.body["product[featured]"]
   db.exec(
     "UPDATE products
-    SET featured = 1
+    SET featured = $2
     WHERE id = $1",
-    product_id
+    product_id,
+    featured
   )
   env.redirect "/admin/products/"
 end
 
 patch "/admin/products/:id/in_home" do |env|
   product_id = env.params.url["id"]
+  in_home = env.params.body["product[in_home]"]
   db.exec(
     "UPDATE products
-    SET in_home = 1
+    SET in_home = $2
     WHERE id = $1",
-    product_id
+    product_id,
+    in_home
   )
   env.redirect "/admin/products/"
 end

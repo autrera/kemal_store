@@ -39,8 +39,10 @@
                                         <form class="form-inline" action="/admin/products/<%= product.id %>/featured" method="POST">
                                             <input type="hidden" name="_method" value="PATCH" />
                                             <% if product.featured %>
+                                                <input type="hidden" name="product[featured]" value="0" />
                                                 <button class="btn btn-link">Featured</button>
                                             <% else %>
+                                                <input type="hidden" name="product[featured]" value="1" />
                                                 <button class="btn btn-link">Not Featured</button>
                                             <% end %>
                                         </form>
@@ -54,8 +56,10 @@
                                         <form class="form-inline" action="/admin/products/<%= product.id %>/in_home" method="POST">
                                             <input type="hidden" name="_method" value="PATCH" />
                                             <% if product.in_home %>
+                                                <input type="hidden" name="product[in_home]" value="0" />
                                                 <button class="btn btn-link">In Home</button>
                                             <% else %>
+                                                <input type="hidden" name="product[in_home]" value="1" />
                                                 <button class="btn btn-link">Not In Home</button>
                                             <% end %>
                                         </form>
