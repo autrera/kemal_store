@@ -162,6 +162,44 @@ def get_products(db)
   return products
 end
 
+def get_featured_products(db)
+  products = Product.from_rs(db.query("
+    SELECT id,
+           organization_id,
+           name,
+           sku,
+           stock,
+           price,
+           description,
+           featured,
+           in_home
+    FROM products
+    ORDER BY featured DESC
+    LIMIT 12
+  "))
+
+  return products
+end
+
+def get_promoted_products(db)
+  products = Product.from_rs(db.query("
+    SELECT id,
+           organization_id,
+           name,
+           sku,
+           stock,
+           price,
+           description,
+           featured,
+           in_home
+    FROM products
+    ORDER BY in_home DESC, featured DESC
+    LIMIT 3
+  "))
+
+  return products
+end
+
 def get_product_categories(db, product_id)
   categories = [] of Category
   db.query("SELECT category_id FROM categories_products WHERE product_id = $1", product_id) do |rs|
@@ -219,7 +257,8 @@ minify_assets("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.
 db = DB.open env_params["DB_URL"]
 
 get "/" do
-  products = get_products(db)
+  products = get_featured_products(db)
+  promoted_products = get_promoted_products(db)
   store_render "src/views/store/welcome/index.ecr"
 end
 

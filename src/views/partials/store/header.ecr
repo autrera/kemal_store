@@ -1,89 +1,47 @@
 <div class="navigation">
-  <div class="grid">
-    <div class="cell col-4">
-      <div class="navigation__search">
-      </div>
-    </div>
+    <div class="grid">
+        <div class="cell col-4">
+            <div class="navigation__search">
+            </div>
+        </div>
 
-    <div class="cell col-4">
-      <div class="store__name-container">
-        <h1 class="store__name">Mi Tienda Online</h1>
-      </div>
-    </div>
+        <div class="cell col-4">
+            <div class="store__name-container">
+                <h1 class="store__name">Mi Tienda Online</h1>
+            </div>
+        </div>
 
-    <div class="cell col-4">
-      <div class="navigation__user-profile">
-      </div>
+        <div class="cell col-4">
+            <div class="navigation__user-profile">
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="promoted-products clearfix">
 
-  <div class="promoted-product">
-    <div class="grid-padded">
-      <div class="grid">
-        <div class="cell col-6">
-          <div class="promoted-product__image-container">
-            <img src="/images/product_placeholder.jpg" class="promoted-product__image" />
-          </div>
-        </div>
+    <% promoted_products.each do |promoted_product| %>
+        <div class="promoted-product">
+            <div class="grid-padded">
+                <div class="grid">
+                    <div class="cell col-6">
+                        <div class="promoted-product__image-container">
+                            <img src="/images/product_placeholder.jpg" class="promoted-product__image" />
+                        </div>
+                    </div>
 
-        <div class="cell col-6">
-          <div class="promoted-product__details">
-            <h2 class="promoted-product__title">Product Name</h2>
-            <p class="promoted-product__description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <a href="#" class="promoted-product__call-to-action">See the product</a>
-          </div>
+                    <div class="cell col-6">
+                        <div class="promoted-product__details">
+                            <h2 class="promoted-product__title"><%= promoted_product.name %></h2>
+                            <p class="promoted-product__description">
+                                <%= promoted_product.description %>
+                            </p>
+                            <a href="#" class="promoted-product__call-to-action">See the product</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="promoted-product">
-    <div class="grid-padded">
-      <div class="grid">
-        <div class="cell col-6">
-          <div class="promoted-product__image-container">
-            <img src="/images/product_placeholder.jpg" class="promoted-product__image" />
-          </div>
-        </div>
-
-        <div class="cell col-6">
-          <div class="promoted-product__details">
-            <h2 class="promoted-product__title">Product Name</h2>
-            <p class="promoted-product__description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <a href="#" class="promoted-product__call-to-action">See the product</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="promoted-product">
-    <div class="grid-padded">
-      <div class="grid">
-        <div class="cell col-6">
-          <div class="promoted-product__image-container">
-            <img src="/images/product_placeholder.jpg" class="promoted-product__image" />
-          </div>
-        </div>
-
-        <div class="cell col-6">
-          <div class="promoted-product__details">
-            <h2 class="promoted-product__title">Product Name</h2>
-            <p class="promoted-product__description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <a href="#" class="promoted-product__call-to-action">See the product</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <% end %>
 
 </div>
