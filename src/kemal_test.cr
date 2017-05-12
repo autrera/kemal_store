@@ -262,6 +262,12 @@ get "/" do
   store_render "src/views/store/welcome/index.ecr"
 end
 
+get "/producto/:slug" do
+end
+
+get "/categoria/:slug" do
+end
+
 ### CATEGORIES URLS ###
 
 get "/admin/categories" do
