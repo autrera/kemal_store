@@ -23,24 +23,30 @@ class Product
     id: Int32,
     organization_id: Int32,
     name: String,
+    slug: String,
     sku: String,
     stock: Int32,
     price: Int32,
     description: String,
     featured: Bool,
     in_home: Bool,
+    created_at: Time,
+    updated_at: Time,
   })
 
   def initialize(
     @id : Int32 = 0,
     @organization_id : Int32 = 0,
     @name : String = "",
+    @slug : String = "",
     @sku : String = "",
     @stock : Int32 = 0,
     @price : Int32 = 0,
     @description : String = "",
     @featured : Bool = false,
-    @in_home : Bool = false
+    @in_home : Bool = false,
+    @created_at : Time = Time.now,
+    @updated_at : Time = Time.now,
   )
   end
 
@@ -126,15 +132,7 @@ end
 
 def get_category_products(db, category_id)
   products = Product.from_rs(db.query("
-    SELECT products.id,
-           organization_id,
-           name,
-           sku,
-           stock,
-           price,
-           description,
-           featured,
-           in_home
+    SELECT products.*
     FROM products
     INNER JOIN categories_products ON products.id = categories_products.product_id
     WHERE categories_products.category_id = $1
@@ -146,15 +144,7 @@ end
 
 def get_products(db)
   products = Product.from_rs(db.query("
-    SELECT id,
-           organization_id,
-           name,
-           sku,
-           stock,
-           price,
-           description,
-           featured,
-           in_home
+    SELECT products.*
     FROM products
     ORDER BY id DESC
   "))
@@ -164,15 +154,7 @@ end
 
 def get_featured_products(db)
   products = Product.from_rs(db.query("
-    SELECT id,
-           organization_id,
-           name,
-           sku,
-           stock,
-           price,
-           description,
-           featured,
-           in_home
+    SELECT products.*
     FROM products
     ORDER BY featured DESC
     LIMIT 12
@@ -183,15 +165,7 @@ end
 
 def get_promoted_products(db)
   products = Product.from_rs(db.query("
-    SELECT id,
-           organization_id,
-           name,
-           sku,
-           stock,
-           price,
-           description,
-           featured,
-           in_home
+    SELECT products.*
     FROM products
     ORDER BY in_home DESC, featured DESC
     LIMIT 3
@@ -202,7 +176,11 @@ end
 
 def get_product_categories(db, product_id)
   categories = [] of Category
-  db.query("SELECT category_id FROM categories_products WHERE product_id = $1", product_id) do |rs|
+  db.query(
+    "SELECT category_id
+    FROM categories_products
+    WHERE product_id = $1"
+  , product_id) do |rs|
     rs.each do
       id = rs.read(Int32)
       category = Category.new(id)
@@ -214,15 +192,7 @@ end
 
 def get_product(db, id)
   products = Product.from_rs(db.query("
-    SELECT id,
-           organization_id,
-           name,
-           sku,
-           stock,
-           price,
-           description,
-           featured,
-           in_home
+    SELECT products.*
     FROM products
     WHERE id = $1
     ORDER BY id DESC
