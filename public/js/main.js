@@ -69,6 +69,8 @@ ajax.put = function(url) {
 // App Logic
 document.addEventListener("turbolinks:load", function() {
   console.log("Hey!");
+
+  // document.getElementByClassName('');
   // document.getElementById('my-list').addEventListener('click', function(event) {
   //   var clickedEl = event.target;
   //   if(clickedEl.tagName === 'BUTTON') {
