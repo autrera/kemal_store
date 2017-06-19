@@ -8,7 +8,9 @@ require "pg"
 # logging false
 gzip true
 
-# Load env params
+
+
+### Load env params ###
 env_params = {} of String => String
 if File.exists? Dir.current + "/.env"
   lines = File.read_lines(Dir.current + "/.env", "UTF-8")
@@ -226,6 +228,10 @@ minify_assets("/css/normalize.css", "/css/grid.css", "/css/ui.css", "/css/store.
 #db = DB.open "postgres://localhost:5432/kemal_test"
 db = DB.open env_params["DB_URL"]
 
+
+
+### STORE FRONT URLS ###
+
 get "/" do
   products = get_featured_products(db)
   promoted_products = get_promoted_products(db)
@@ -238,7 +244,9 @@ end
 get "/categoria/:slug" do
 end
 
-### CATEGORIES URLS ###
+
+
+### ADMIN CATEGORIES URLS ###
 
 get "/admin/categories" do
   categories = get_categories(db)
@@ -286,9 +294,9 @@ get "/admin/categories/:id/products" do |env|
   admin_render "src/views/admin/categories/products.ecr"
 end
 
-### /CATEGORIES URLS ###
 
-### PRODUCTS URLS ###
+
+### ADMIN PRODUCTS URLS ###
 
 get "/admin/products" do
   products = get_products(db)
@@ -427,8 +435,6 @@ patch "/admin/products/:id/in_home" do |env|
   env.redirect "/admin/products/"
 end
 
-### /PRODUCTS URLS ###
-
 get "/admin/config/" do |env|
   config = get_config(db)
   admin_render "src/views/admin/config/edit.ecr"
@@ -439,8 +445,15 @@ patch "/admin/config/" do |env|
   admin_render "src/views/admin/config/edit.ecr"
 end
 
+
+
 Kemal.run
 db.close
+
+
+
+
+
 
 # macro resource(route_parts, resource_object)
 #
