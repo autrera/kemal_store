@@ -18,6 +18,7 @@ dependencies:
     branch: master
   kemal-session:
     github: kemalcr/kemal-session
+    branch: master
   kemal-csrf:
     github: kemalcr/kemal-csrf
   db:
