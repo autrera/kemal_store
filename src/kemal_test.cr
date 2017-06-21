@@ -246,6 +246,12 @@ end
 
 
 
+### ADMIN ###
+
+get "/admin" do |env|
+  env.redirect "/admin/products/"
+end
+
 ### ADMIN CATEGORIES URLS ###
 
 get "/admin/categories" do
@@ -390,22 +396,24 @@ end
 
 post "/admin/products/:id/images" do |env|
   product_id = env.params.url["id"]
-  parse_multipart(env) do |f|
-    file_name = "#{product_id}-#{Time.new.epoch}.jpg"
-    file_public_path = File.join "", "uploads", "products", "#{file_name}"
-    file_storage_path = File.join Dir.current, "public", file_public_path
-    File.open(file_storage_path, "w") do |file|
-      IO.copy(f.data, file)
-    end
-    db.exec "
-      INSERT INTO product_images(
-        product_id,
-        url
-      ) VALUES (
-        $1,
-        $2
-      )", product_id, file_public_path
+  f = env.params.files["file"]
+  #parse_multipart(env) do |f|
+  file_name = "#{product_id}-#{Time.new.epoch}.jpg"
+  file_public_path = File.join "", "uploads", "products", "#{file_name}"
+  file_storage_path = File.join Dir.current, "public", file_public_path
+  File.open(file_storage_path, "w") do |file|
+    #IO.copy(f.data, file)
+    IO.copy(f.tmpfile, file)
   end
+  db.exec "
+    INSERT INTO product_images(
+      product_id,
+      url
+    ) VALUES (
+      $1,
+      $2
+    )", product_id, file_public_path
+  #end
   env.redirect "/admin/products/#{product_id}/images/"
 end
 
